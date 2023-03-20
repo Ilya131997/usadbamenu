@@ -1,5 +1,23 @@
 {% extends 'menu/base.html' %}
 
 {% block content %}
-Продукты
+<table class="table table-hover ">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Название</th>
+        <th scope="col">Цена</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for p in products %}
+    <tr>
+        <td width="10">{{p.pk}}</td>
+        <td width="200">{{p.title}}</td>
+        <td width="200">{{p.price}}</td>
+        <td class="button">
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

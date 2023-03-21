@@ -73,7 +73,11 @@
             <td width="250">{{p.title}}</td>
             <td width="400">{{p.price}}</td>
             <td width="100"><a href="{% url 'update_product' p.pk %}">Редактировать</a></td>
-            <td width="10"><a href="{% url 'delete_product' p.pk %}">Удалить</a></td>
+            <td width="10">
+                <form action="{% url 'delete_product' p.pk %}" method="post">{% csrf_token %}
+                    <input type="submit" value="Удалить">
+                </form>
+            </td>
             <td class="button">
         </tr>
         {% endfor %}

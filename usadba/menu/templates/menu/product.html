@@ -30,10 +30,30 @@
 <!--Если запись добавляется-->
 <div class="container d-flex align-items-center justify-content-center ">
     {% if success %}
-        <p style="color:red">Запись добавлена</p>
+    <p style="color:red">Запись добавлена</p>
     {% endif %}
 </div>
 
+<!--Проверка на редактирование-->
+<div class="container d-flex  justify-content-center mt-4">
+
+    {% if update_product %}
+    <div class="d-flex align-items-center justify-content-center mt-4">
+        <div class="container">
+            <div class="row">
+                <p class="d-flex align-items-center justify-content-center mt-4">Страница редактирования</p>
+            </div>
+            <form id="update_product" method="post" action="">
+                {% csrf_token %}
+                {{ form.title }}<br>
+                {{ form.price }}<br>
+                <span>{{ error }}</span>
+                <button form="update_product" type="submit" class="btn btn-primary">Обновить</button>
+            </form>
+        </div>
+    </div>
+    {% else %}
+</div>
 
 <div class="container d-flex align-items-center justify-content-center ">
     <table class="table table-hover">
@@ -52,12 +72,13 @@
             <td width="100">{{p.pk}}</td>
             <td width="250">{{p.title}}</td>
             <td width="400">{{p.price}}</td>
-            <td width="100"><a href="">Редактировать</a></td>
-            <td width="10"><a href="">Удалить</a></td>
+            <td width="100"><a href="{% url 'update_product' p.pk %}">Редактировать</a></td>
+            <td width="10"><a href="{% url 'delete_product' p.pk %}">Удалить</a></td>
             <td class="button">
         </tr>
         {% endfor %}
         </tbody>
     </table>
 </div>
+{% endif %}
 {% endblock %}

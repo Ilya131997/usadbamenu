@@ -12,10 +12,12 @@ class AddProductForm(forms.ModelForm):
         widgets = {
             "title": TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Продукт'
+                'placeholder': 'Продукт',
+                'style': 'width:50ch',
             }),
             "price": TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Цена'
+                'placeholder': 'Цена',
+                'style': 'width:50ch',
             }),
         }

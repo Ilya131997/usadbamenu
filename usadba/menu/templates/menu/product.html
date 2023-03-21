@@ -27,12 +27,23 @@
     </div>
 </div>
 
-<!--Если запись добавляется-->
-<div class="container d-flex align-items-center justify-content-center ">
-    {% if success %}
-    <p style="color:red">Запись добавлена</p>
-    {% endif %}
+<!--&lt;!&ndash;Если запись добавляется&ndash;&gt;-->
+<!--<div class="container d-flex align-items-center justify-content-center ">-->
+<!--    {% if success %}-->
+<!--    <p style="color:red">Запись добавлена</p>-->
+<!--    {% endif %}-->
+<!--</div>-->
+
+<!--Если добавили запись-->
+{% if messages %}
+
+<div class="alert alert-success">
+    {% for m in messages %}
+    {{m}}
+    {% endfor %}
 </div>
+
+{% endif %}
 
 <!--Проверка на редактирование-->
 <div class="container d-flex  justify-content-center mt-4">

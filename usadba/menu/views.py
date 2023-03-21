@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -9,11 +10,22 @@ def index(request):
     return render(request, 'menu/homemenu.html')
 
 
-class ProductCreateView(CreateView):
+class CustomSuccessMessageMixin:
+    @property
+    def success_msg(self):
+        return False
+
+    def form_valid(self, form):
+        messages.success(self.request, self.success_msg)
+        return super().form_valid(form)
+
+
+class ProductCreateView(CustomSuccessMessageMixin, CreateView):
     model = Product
     template_name = 'menu/product.html'
     form_class = AddProductForm
     success_url = reverse_lazy('product')
+    success_msg = 'Продукт добавлен'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -40,16 +52,18 @@ class ProductCreateView(CreateView):
 #     return render(request, 'menu/product.html', context=context)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(CustomSuccessMessageMixin, UpdateView):
     model = Product
     template_name = 'menu/product.html'
     form_class = AddProductForm
     success_url = reverse_lazy('product')
+    success_msg = 'Продукт обновлен'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['update_product'] = True
         return context
+
 
 # # Обновление продукта
 # def update_product(request, pk):
@@ -71,10 +85,11 @@ class ProductUpdateView(UpdateView):
 #     return render(request, 'menu/product.html', context=context)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(CustomSuccessMessageMixin, DeleteView):
     model = Product
     template_name = 'menu/product.html'
     success_url = reverse_lazy('product')
+    success_msg = 'Продукт удален'
 
 # # Удаление продукта
 # def delete_product(request, pk):

@@ -96,3 +96,7 @@ class ProductDeleteView(CustomSuccessMessageMixin, DeleteView):
 #     get_product = Product.objects.get(pk=pk)
 #     get_product.delete()
 #     return redirect('/product')
+
+
+def dish(request):
+    return render(request, 'menu/dish.html')

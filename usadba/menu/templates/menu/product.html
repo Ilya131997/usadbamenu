@@ -70,7 +70,8 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">id</th>
+            <th scope="col">Номер</th>
             <th scope="col">Название</th>
             <th scope="col">Цена</th>
             <th scope="col">Изменение</th>
@@ -81,6 +82,7 @@
         {% for p in products %}
         <tr>
             <td width="100">{{p.pk}}</td>
+            <td>{{ forloop.counter }}</td>
             <td width="250">{{p.title}}</td>
             <td width="400">{{p.price}}</td>
             <td width="100"><a href="{% url 'update_product' p.pk %}">Редактировать</a></td>

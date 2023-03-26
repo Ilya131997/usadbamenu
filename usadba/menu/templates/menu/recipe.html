@@ -2,25 +2,43 @@
 
 {% block content %}
 <div class="d-grid gap-3 d-md-flex justify-content-md-center">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
-        Добавить продукт
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Добавить рецепт
     </button>
 </div>
 <!-- Модальное окно 1 -->
-<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel1">Добавить продукт</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Добавить рецепт</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <div class="modal-body">
-                <form id="add_product" method="post" action="">
+                <form id="add_recipe" method="post" action="">
                     {% csrf_token %}
-                    {{ form.title }}<br>
-                    {{ form.price }}<br>
+                    <h2>{{ form.title }}</h2>
+                    <h2>{{ form.products }}</h2>
+                    <input list="<идентификатор>">
+                    <datalist id="<идентификатор>">
+                        <option value={{form.products}}>
+                    </datalist>
+
+
+                    <!--                    <h2>{{ form.products }}</h2>-->
+                    <!--                    {% for recipe in object_list %}-->
+
+                    <!--                    <ul>-->
+                    <!--                        {% for product in recipe.products.all %}-->
+                    <!--                        <li>{{ product.title }}</li>-->
+                    <!--                        {% endfor %}-->
+                    <!--                    </ul>-->
+                    <!--                    {% endfor %}-->
+                    <!--                    &lt;!&ndash;                    {{ form.title }}<br>&ndash;&gt;-->
+                    <!--                    {{ form }}<br>-->
+
                     <span>{{ error }}</span>
-                    <button form="add_product" type="submit" class="btn btn-primary">Сохранить</button>
+                    <button form="add_recipe" type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
             </div>
         </div>
@@ -48,18 +66,17 @@
 <!--Проверка на редактирование-->
 <div class="container d-flex  justify-content-center mt-4">
 
-    {% if update_product %}
+    {% if update_recipe %}
     <div class="d-flex align-items-center justify-content-center mt-4">
         <div class="container">
             <div class="row">
                 <p class="d-flex align-items-center justify-content-center mt-4">Страница редактирования</p>
             </div>
-            <form id="update_product" method="post" action="">
+            <form id="update_recipe" method="post" action="">
                 {% csrf_token %}
                 {{ form.title }}<br>
-                {{ form.price }}<br>
                 <span>{{ error }}</span>
-                <button form="update_product" type="submit" class="btn btn-primary">Обновить</button>
+                <button form="update_recipe" type="submit" class="btn btn-primary">Обновить</button>
             </form>
         </div>
     </div>
@@ -73,21 +90,24 @@
             <th scope="col">id</th>
             <th scope="col">Номер</th>
             <th scope="col">Название</th>
-            <th scope="col">Цена</th>
             <th scope="col">Изменение</th>
             <th scope="col">Удаление</th>
         </tr>
         </thead>
         <tbody>
-        {% for p in products %}
+        {% for r in recipe %}
         <tr>
-            <td width="100">{{p.pk}}</td>
-            <td>{{ forloop.counter }}</td>
-            <td width="250">{{p.title|capfirst}}</td>
-            <td width="400">{{p.price}}</td>
-            <td width="100"><a href="{% url 'update_product' p.pk %}">Редактировать</a></td>
+            <td width="100">{{r.pk}}</td>
+            <td width="100">{{ forloop.counter }}</td>
+            <td width="450">{{r.title|capfirst}}</td>
+            <td width="450">
+                {% for recipe in r.products.all %}
+                {{ recipe.title }}<br>
+                {% endfor %}
+            </td>
+            <td width="100"><a href="{% url 'update_recipe' r.pk %}">Редактировать</a></td>
             <td width="10">
-                <form action="{% url 'delete_product' p.pk %}" method="post">{% csrf_token %}
+                <form action="{% url 'delete_recipe' r.pk %}" method="post">{% csrf_token %}
                     <input type="submit" value="Удалить">
                 </form>
             </td>

@@ -91,12 +91,58 @@ class ProductDeleteView(CustomSuccessMessageMixin, DeleteView):
     success_url = reverse_lazy('product')
     success_msg = 'Продукт удален'
 
+
 # # Удаление продукта
 # def delete_product(request, pk):
 #     get_product = Product.objects.get(pk=pk)
 #     get_product.delete()
 #     return redirect('/product')
 
+# ________________Рецепты
+class RecipeCreateView(CustomSuccessMessageMixin, CreateView):
+    model = Recipe
+    template_name = 'menu/recipe.html'
+    form_class = AddRecipeForm
+    success_url = reverse_lazy('recipe')
+    success_msg = 'Рецепт добавлен'
 
-def dish(request):
-    return render(request, 'menu/dish.html')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recipe'] = Recipe.objects.all()
+        # context['products'] = Product.objects.all()
+        return context
+
+
+class RecipeUpdateView(CustomSuccessMessageMixin, UpdateView):
+    model = Recipe
+    template_name = 'menu/recipe.html'
+    form_class = AddRecipeForm
+    success_url = reverse_lazy('recipe')
+    success_msg = 'Рецепт обновлен'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['update_recipe'] = True
+        return context
+
+
+class RecipeDeleteView(CustomSuccessMessageMixin, DeleteView):
+    model = Recipe
+    template_name = 'menu/recipe.html'
+    success_url = reverse_lazy('recipe')
+    success_msg = 'Рецепт удален'
+
+
+# _______________________Меню основное
+class MainMenuCreateView(CustomSuccessMessageMixin, CreateView):
+    model = Recipe
+    template_name = 'menu/recipe.html'
+    form_class = AddRecipeForm
+    success_url = reverse_lazy('recipe')
+    success_msg = 'Рецепт добавлен'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recipe'] = Recipe.objects.all()
+        # context['products'] = Product.objects.all()
+        return context
